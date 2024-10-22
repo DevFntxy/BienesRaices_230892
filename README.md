@@ -9,7 +9,8 @@ Poder demostrar y aprender la creacion y consumo de Interfaces de Programacion d
 ## Historial de practicas 
 | No. |Fecha| Descripción                                     | Potenciador|Estatus |
 | --- | ----------------------------------------------- |------------| -------|------|
-| 8.  | 17/10/2024|Repositorio del proyecto implementando .gitignore |1| 🆕 Activa  | | 
+| 8.  | 17/10/2024|Repositorio del proyecto implementando .gitignore |1| ✅ Finalizada |
+| 9.  | 22/10/2024|Creacion de una practica usando express|12| ✅ Finalizada |  
 
 
 ## Autor
