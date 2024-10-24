@@ -11,7 +11,7 @@ Poder demostrar y aprender la creacion y consumo de Interfaces de Programacion d
 | --- | ----------------------------------------------- |------------| -------|------|
 | 8.  | 17/10/2024|Repositorio del proyecto implementando .gitignore |1| ✅ Finalizada |
 | 9.  | 22/10/2024|Creacion de una practica usando express|12| ✅ Finalizada |  
-| 10.  | 23/10/2024|Operaciones Basicas de un API a traves de los verbos HTTP|Pendiente| 🔧 Por definir  |  
+| 10.  | 23/10/2024|Operaciones Basicas de un API a traves de los verbos HTTP|12| ✅ Finalizada  | 
 
 ### Tech Stack
 ![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
