@@ -1,7 +1,6 @@
-import express from 'express';
-
+import express, { application } from 'express';
+import { formularioLogin,formularioRegister,formularioPasswordRecovery }  from '../controllers/usuarioController.js';
 const router = express.Router();
-
 
 //GET
 //Endpoints - Rutas para acceder a las secciones o funciones de nuestra aplicacion web
@@ -43,6 +42,12 @@ router.delete("/deleteUser/:email", function(request, response){
     response.send(`Se ha solicitado la eliminacion del usuario ${request.params.email}`)
 })
 
+
+router.get("/login", formularioLogin);
+
+router.get("/createAccount",formularioRegister);
+
+router.get("/passwordRecovery",formularioPasswordRecovery);
 
 
 export default router;

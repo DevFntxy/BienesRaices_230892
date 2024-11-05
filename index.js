@@ -13,10 +13,16 @@ const app = express();
 
 const port = 3000;
 
+//Habilitar templeate engine Pug 
+app.set('view engine','pug')
+app.set('views','./views')
+
+//carpeta publica
+app.use(express.static('public'))
+
 app.listen(port, ()=>{
     console.log(`La aplicacion ha iniciado en el puerto ${port}`)  
 })
 
 app.use('/', generalRoutes);
 app.use('/usuario/', userRoutes);
-
