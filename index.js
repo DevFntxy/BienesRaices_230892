@@ -8,6 +8,7 @@
 import express from 'express';
 import generalRoutes from  './routes/generalRoutes.js';
 import userRoutes from  './routes/userRoutes.js';
+import db from './db/config.js'
 
 const app = express();
 
@@ -19,6 +20,17 @@ app.set('views','./views')
 
 //carpeta publica
 app.use(express.static('public'))
+
+//Conexión a la BD
+try
+{
+  await db.authenticate();
+  console.log("Conexión exitosa a la base de datos :D")
+}
+catch(error)
+{
+    console.log("Error de conexion :ccc")
+}
 
 app.listen(port, ()=>{
     console.log(`La aplicacion ha iniciado en el puerto ${port}`)  
