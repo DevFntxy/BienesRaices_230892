@@ -8,7 +8,7 @@ block contenido
     
     .mt-8.mx-auto.max-w-md
       .bg-white.py-8.px-4.shadow
-        form(action="").space-y-5.px-6
+        form(method="POST" action="/usuario/createAccount").space-y-5.px-6
             div
               label.block.text-sm.uppercase.text-gray-600.mb-2.font-nold Nombre:
               input#nombre.w-full.px-2.py-2.border.border-gray-600.rounded-md.placeholder-gray-400(placeholder="Ingresa tu nombre" type ="text" 
@@ -24,7 +24,7 @@ block contenido
             div
               label.block.text-sm.uppercase.text-gray-600.mb-2.font-nold Confirma Contraseña: 
               input#password-confirm.w-full.px-2.py-2.border.border-gray-600.rounded-md.placeholder-gray-400(placeholder="Ingresa tu contraseña" type ="password" 
-              name="password")
+              name="repetpassword")
             .flex.items-center.justify-between
               a.text-grav-500.text-xs(href="/usuario/passwordRecovery" class="hover:underline hover:decoration-2 hover:decoration-sesnitercery") Olvide mi contraseaña...
               a.text-grav-500.text-xs(href="/usuario/login" class="hover:underline hover:decoration-2 hover:decoration-sesnitercery") Ya tienes cuenta? Inica sesion 

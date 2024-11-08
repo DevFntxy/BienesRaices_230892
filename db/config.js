@@ -1,8 +1,11 @@
+//import Processor from "postcss/lib/processor";
 import Sequelize from "sequelize";
+import dotenv from 'dotenv'
+dotenv.config({patch: ".env"})
 
-const db = new Sequelize('bienes_raices_230892', 'Derek.Sesni', 'pass123', {
-    host:"localhost", 
-    port:3307,
+const db = new Sequelize(process.env.BD_NOMBRE, process.env.BD_USER, process.env.BD_PASS, {
+    host:process.env.BD_HOST, 
+    port:3306,
     dialect: 'mysql',
     define: {
         timestamps: true

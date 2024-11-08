@@ -21,10 +21,12 @@ app.set('views','./views')
 //carpeta publica
 app.use(express.static('public'))
 
+app.use(express.urlencoded({extended: true}))
 //Conexión a la BD
 try
 {
   await db.authenticate();
+  db.sync()
   console.log("Conexión exitosa a la base de datos :D")
 }
 catch(error)
