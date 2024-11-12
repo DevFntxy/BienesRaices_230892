@@ -6,17 +6,22 @@ block contenido
             spam.font-normal Raices 
         h2.text-center.text-2xl.font-extrabold=  page 
     
+          if errores 
+            div(class ="max-w-md mx-auto my-10")
+                each error in errores 
+                  p.bg-red-100.text-red-700.border.border-red-300.rounded-md.p-4.mb-2.font-bold= error.msg 
+
     .mt-8.mx-auto.max-w-md
       .bg-white.py-8.px-4.shadow
-        form(method="POST" action="/usuario/createAccount").space-y-5.px-6
+        form(method="POST" action="/usuario/createAccount" noValidate).space-y-5.px-6
             div
               label.block.text-sm.uppercase.text-gray-600.mb-2.font-nold Nombre:
               input#nombre.w-full.px-2.py-2.border.border-gray-600.rounded-md.placeholder-gray-400(placeholder="Ingresa tu nombre" type ="text" 
-              name="nombre")
+              name="nombre" value= usuario ?  usuario.nombre : '')
             div
               label.block.text-sm.uppercase.text-gray-600.mb-2.font-nold Correo:
               input#email.w-full.px-2.py-2.border.border-gray-600.rounded-md.placeholder-gray-400(placeholder="Ingresa tu correo" type ="email" 
-              name="email")
+              name="email" value= usuario ?  usuario.email : '')
             div
               label.block.text-sm.uppercase.text-gray-600.mb-2.font-nold Contraseña: 
               input#password.w-full.px-2.py-2.border.border-gray-600.rounded-xd.placeholder-gray-400(placeholder="Ingresa tu contraseña" type ="password" 

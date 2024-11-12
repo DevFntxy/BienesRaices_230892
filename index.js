@@ -21,7 +21,7 @@ app.set('views','./views')
 //carpeta publica
 app.use(express.static('public'))
 
-app.use(express.urlencoded({extended: true}))
+app.use( express.urlencoded({extended: true}))
 //Conexión a la BD
 try
 {
