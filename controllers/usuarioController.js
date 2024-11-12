@@ -61,8 +61,14 @@ const register = async (request, response) => {
         password,
         token:generarID() // Llamamaos a traer la funcion generar id 
     })
-       
-}
+    //Mostrandole al usuario mensaje de confirmación
+
+    response.render('templates/mensaje' , {
+        page : 'Cuenta Creada Correctamente',
+        mensaje: 'Hemos enviado un codigo de confimacion a su correo'
+    })
+
+    }
 
 const formularioPasswordRecovery = function(request, response) {
     response.render('auth/passwordRecovery', {
