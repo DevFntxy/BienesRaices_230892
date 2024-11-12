@@ -1,6 +1,7 @@
 import { check , validationResult} from 'express-validator';
 import Usuario from "../models/Usuario.js";
-import { where } from 'sequelize';
+import {generarID} from '../helpers/tokens.js'
+
 
 const formularioLogin = function(request, response) {
     response.render('auth/login', {
@@ -53,7 +54,14 @@ const register = async (request, response) => {
             }
         })   
     }
-     return;
+     //Almacenar un usuario
+    await Usuario.create({
+        nombre,
+        email,
+        password,
+        token:generarID() // Llamamaos a traer la funcion generar id 
+    })
+       
 }
 
 const formularioPasswordRecovery = function(request, response) {
