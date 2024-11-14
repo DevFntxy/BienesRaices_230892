@@ -77,9 +77,9 @@ const register = async (request, response) => {
     })
     //Mostrandole al usuario mensaje de confirmación
 
-    response.render('templates/mensaje' , {
+    response.render('templates/message' , {
         page : 'Cuenta Creada Correctamente',
-        mensaje: 'Hemos enviado un codigo de confimacion a su correo'
+        mensaje: `Hemos enviado un codigo a: ${email} para que confirme cuenta`
     })
 
     }
