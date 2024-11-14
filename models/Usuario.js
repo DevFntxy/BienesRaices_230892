@@ -10,7 +10,8 @@ const Usuario = db.define('usuarios' , {
     },
     email : {
         type : DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
 
     password: {
@@ -24,6 +25,7 @@ const Usuario = db.define('usuarios' , {
     hooks:{
         beforeCreate: async function (usuario) {
             //Encryptando contraseña con hash y bcryp 
+            //Salt es como voy a disfrazar el mensaje, generamos la clave para el hasheo , se recp,oemdam 10 rondas de aleotorizacion para no consumir demasiados recuersos de hardware
            const salt = await bcryp.genSalt(10);
            usuario.password = await bcryp.hash( usuario.password, salt) 
         }

@@ -12,7 +12,7 @@ import db from './db/config.js'
 
 const app = express();
 
-const port = 3000;
+const port = process.env.port ||  3000;
 
 //Habilitar templeate engine Pug 
 app.set('view engine','pug')
@@ -25,8 +25,8 @@ app.use( express.urlencoded({extended: true}))
 //Conexión a la BD
 try
 {
-  await db.authenticate();
-  db.sync()
+  await db.authenticate();//Verifica las credenciales del usuario
+  db.sync(); //Sincronizo las tablas con los modelos
   console.log("Conexión exitosa a la base de datos :D")
 }
 catch(error)

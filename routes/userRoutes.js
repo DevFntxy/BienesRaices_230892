@@ -1,5 +1,5 @@
 import express, { application } from 'express';
-import { formularioLogin,formularioRegister,register,formularioPasswordRecovery }  from '../controllers/usuarioController.js';
+import { formularioLogin,formularioRegister,register,findOut,formularioPasswordRecovery }  from '../controllers/usuarioController.js';
 const router = express.Router();
 
 //GET
@@ -44,8 +44,11 @@ router.delete("/deleteUser/:email", function(request, response){
 
 
 router.get("/login", formularioLogin);
+
 router.get("/createAccount",formularioRegister);
 router.post("/createAccount", register);
+
+router.get('/findOut/:token', findOut);
 router.get("/passwordRecovery",formularioPasswordRecovery);
 
 

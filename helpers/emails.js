@@ -1,14 +1,16 @@
 import nodemailer from 'nodemailer'
 
-const emailRegistro = async (datos) => {
-     const transport = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
+ const emailRegistro = async (datos) => {
+  var transport = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+  
+  console.log(datos)
       
       const {email, nombre , token} = datos 
 
@@ -19,14 +21,15 @@ const emailRegistro = async (datos) => {
         to : email,
         subject: 'Confirma tu cuenta en bienes raices.com',
         text: 'Confirma tu cuenta en bienes raices.com',
-        html:  `
-            <p> Hola ${nombre} comprueba tu cuenta en bienesracices.com </p>
+       
+html: `
+    <p>Hola ${nombre}, comprueba tu cuenta en bienesraices.com</p>
+    <p>Tu cuenta ya está lista, solo debes confirmarla en el siguiente enlace:
+    <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/usuario/findOut${token}">Confirma cuenta</a></p>
+    <p>Si tú no creaste esta cuenta, ignora este mensaje.</p>
+`
 
-            <p>Tu cuenta ya esta lista, solo debes confirmarla en el siguiente enlace:
-            <href=""Confirma cuenta</a> </p>
-
-            <p> Si tu no creaste esta cuenta solo ignora este mensaje</p>
-        `
+        
       })
 }
 
