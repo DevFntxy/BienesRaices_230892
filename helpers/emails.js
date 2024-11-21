@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer'
+import dotenv from 'dotenv';
+dotenv.config({patch: ".env"})
 
  const emailRegistro = async (datos) => {
     var transport = nodemailer.createTransport({
@@ -11,12 +13,11 @@ import nodemailer from 'nodemailer'
      });
   
    
-     console.log(datos)
       
       const {email, nombre , token} = datos 
 
       //enviar el email
-
+     //console.log(`${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}auth/accountConfirmed/${token}`)
       await transport.sendMail({
         from: 'BienesRaices230892.com',
         to : email,
@@ -32,15 +33,16 @@ import nodemailer from 'nodemailer'
                 <p style="font-size: 16px;">Hola <strong>${nombre}</strong>,</p>
                 <p style="font-size: 16px;">¡Gracias por unirte a <strong>Bienes Raíces 230892</strong>! Tu cuenta está casi lista, solo necesitas confirmarla haciendo clic en el botón a continuación:</p>
                 <div style="text-align: center; margin: 20px 0;">
-                    <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/usuario/findOut${token}" 
+                    <a href="${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}/auth/accountConfirmed/${token}" 
                        style="display: inline-block; background-color: #004481; color: #fff; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
                         Confirmar cuenta
                     </a>
                 </div>
                 <p style="font-size: 14px;">Si no creaste esta cuenta, puedes ignorar este mensaje.</p>
-                <p style="font-size: 14px; color: #777;">Atentamente,<br>El equipo de Bienes Raíces 230892</p>
+                <p style="font-size: 14px; color: #777;">Atentamente,<br>Derek Sesni Carreño 230892</p>
             </div>
             <div style="background-color: #f7f7f7; color: #777; padding: 10px; text-align: center; font-size: 12px;">
+                <img src="https://localhost:3000/public/img/Firma-DerekSesni.png" alt="FirmaCeo">
                 <p style="margin: 0;">© 2024 Bienes Raíces 230892. Todos los derechos reservados.</p>
             </div>
         </div>
