@@ -22,6 +22,7 @@ const Usuario = db.define('usuarios' , {
         type: DataTypes.DATEONLY,  // Utiliza DATEONLY si solo quieres la fecha sin hora
         allowNull: false
     },
+ 
 
     token: DataTypes.STRING,
     confirmado: DataTypes.BOOLEAN
