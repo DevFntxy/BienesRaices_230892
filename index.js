@@ -6,7 +6,7 @@
 //const app = express();  
 
 import express from 'express';
-import csrf from 'csurf';
+import csurf from 'csurf';
 import cookieParser from 'cookie-parser';
 import generalRoutes from  './routes/generalRoutes.js';
 import userRoutes from  './routes/userRoutes.js';
@@ -21,12 +21,13 @@ app.set('view engine','pug')
 app.set('views','./views')
 
  //carpe ta publica
-app.use(express.static('public'))
+app.use( express.static('public'))
 
-app.use(cookieParser());
+//Habilitar cookie parser
+app.use( cookieParser())
 
 // Middleware para manejar CSRF
-app.use(csrf({ cookie: true }));
+//app.use( csurf({ cookie: true }))
 
 app.use( express.urlencoded({extended: true}))
 //Conexión a la BD

@@ -14,7 +14,7 @@ block contenido
 
         .mt-8.mx-auto.max-w-md
             .bg-white.py-8.px-4.shadow
-                form(method="POST" action="/auth/registro" noValidate).space-y-5.px-6
+                form(method="POST" action="/auth/CreateAccount" noValidate).space-y-5.px-6
                     input(type="hidden" name="_csrf" value= csrfToken)
                     div
                         label.block.text-sm.uppercase.text-gray-600.mb-2.font-nold(for="nombre") Nombre:

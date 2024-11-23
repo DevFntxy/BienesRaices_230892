@@ -2,7 +2,6 @@ import { check, validationResult } from 'express-validator';
 import Usuario from '../models/Usuario.js';
 import { generarID } from '../helpers/tokens.js';
 import { emailRegistro } from '../helpers/emails.js';
-import { request } from 'express';
 
 const formularioLogin = (request, response) => {
   response.render('auth/login', {
@@ -11,10 +10,12 @@ const formularioLogin = (request, response) => {
 };
 
 const formularioRegister = (request, response) => {
-
+  
+  //console.log(request.csrfToken())
   response.render('auth/register', {
+    //csrfToken: request.csrfToken(),
     page: 'Crear Cuenta',
-    csrfToken: request.csrfToken(),
+    
   });
 };
 const register = async (request, response) => {
@@ -28,8 +29,8 @@ const register = async (request, response) => {
 
   if (!resultado.isEmpty()) {
     return response.render('auth/register', {
+    // csrfToken: request.csrfToken(),
       page: 'Crear Cuenta',
-      csrffToken: request.csrfToken(),
       errores: resultado.array(),
       usuario: {
         nombre: request.body.nombre,
@@ -45,8 +46,8 @@ const register = async (request, response) => {
 
   if (usuarioExistente) {
     return response.render('auth/register', {
+     // csrfToken: request.csrfToken(),
       page: 'Crear Cuenta',
-      csrfToken: request.csrfToken(),
       errores: [{ msg: 'El usuario ya está registrado' }],
       usuario: {
         nombre,
@@ -83,7 +84,7 @@ const confirm = async (request, response) => {
   const usuario = await Usuario.findOne({ where: { token } });
 
   if (!usuario) {
-    return res.render('auth/accountConfirmed', {
+    return response.render('auth/accountConfirmed', {
       page: 'Error al confirmar tu cuenta',
       mensaje: 'El token no es válido o ha expirado.',
       error: true,
