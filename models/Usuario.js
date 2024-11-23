@@ -17,7 +17,12 @@ const Usuario = db.define('usuarios' , {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },   
+    fechaNacimiento: {
+        type: DataTypes.DATEONLY,  // Utiliza DATEONLY si solo quieres la fecha sin hora
+        allowNull: false
     },
+ 
 
     token: DataTypes.STRING,
     confirmado: DataTypes.BOOLEAN

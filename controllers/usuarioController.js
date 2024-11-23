@@ -1,4 +1,4 @@
-import { check, validationResult } from 'express-validator';
+import { check, checkExact, validationResult } from 'express-validator';
 import Usuario from '../models/Usuario.js';
 import { generarID } from '../helpers/tokens.js';
 import { emailRegistro } from '../helpers/emails.js';
@@ -24,6 +24,23 @@ const register = async (request, response) => {
   await check('email').isEmail().withMessage('Debe ser un email válido').run(request);
   await check('password').isLength({ min: 8 }).withMessage('El password debe tener al menos 8 caracteres').run(request);
   await check('repetpassword').equals(request.body.password).withMessage('Las contraseñas no coinciden').run(request);
+  await check('fechaNacimiento')
+  .notEmpty().withMessage('La fecha de nacimiento es obligatoria')
+  .custom((value) => {
+    const hoy = new Date();
+    const fechaNacimiento = new Date(value);
+    
+    // Calcula la diferencia en años entre la fecha de hoy y la fecha de nacimiento
+    const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+
+    // Si la diferencia es menor a 18 o si cumple 18 años en el año actual pero aún no ha llegado a su cumpleaños
+    if (edad < 18 || (edad === 18 && hoy < new Date(fechaNacimiento.setFullYear(hoy.getFullYear())))) {
+      throw new Error('Debes ser mayor de 18 años para registrarte');
+    }
+
+    return true;
+  })
+  .run(request);
 
   const resultado = validationResult(request);
 
@@ -39,7 +56,7 @@ const register = async (request, response) => {
     });
   }
 
-  const { nombre, email, password } = request.body;
+  const { nombre, email, password,fechaNacimiento } = request.body;
 
   // Verificar usuario duplicado
   const usuarioExistente = await Usuario.findOne({ where: { email } });
@@ -61,6 +78,7 @@ const register = async (request, response) => {
     nombre,
     email,
     password,
+    fechaNacimiento,
     token: generarID(),
   });
 
@@ -74,6 +92,7 @@ const register = async (request, response) => {
   response.render('templates/message', {
     page: 'Cuenta Creada Correctamente',
     mensaje: `Hemos enviado un correo a ${email} para confirmar tu cuenta.`,
+    
   });
 };
 
