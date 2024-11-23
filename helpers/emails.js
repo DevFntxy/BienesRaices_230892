@@ -31,7 +31,8 @@ dotenv.config({patch: ".env"})
             </div>
             <div style="padding: 20px;">
                 <p style="font-size: 16px;">Hola <strong>${nombre}</strong>,</p>
-                <p style="font-size: 16px;">¡Gracias por unirte a <strong>Bienes Raíces 230892</strong>! Tu cuenta está casi lista, solo necesitas confirmarla haciendo clic en el botón a continuación:</p>
+                <p style="font-size: 16px;">¡Gracias por unirte a <strong>Bienes Raíces 230892</strong>! Agradecemos tu interes en nosotros, ya que somos una empresa confiable para la
+                adquisicion de bienes raices, Tu cuenta está casi lista, solo necesitas confirmarla haciendo click :</p>
                 <div style="text-align: center; margin: 20px 0;">
                     <a href="${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}/auth/accountConfirmed/${token}" 
                        style="display: inline-block; background-color: #004481; color: #fff; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
@@ -42,7 +43,7 @@ dotenv.config({patch: ".env"})
                 <p style="font-size: 14px; color: #777;">Atentamente,<br>Derek Sesni Carreño 230892</p>
             </div>
             <div style="background-color: #f7f7f7; color: #777; padding: 10px; text-align: center; font-size: 12px;">
-                <img src="https://localhost:3000/public/img/Firma-DerekSesni.png" alt="FirmaCeo">
+                <a href="https://imgbb.com/"><img src="https://i.ibb.co/B2b1XWL/Firma-Derek-Sesni.png" alt="Firma-Derek-Sesni" width="100" height="100"></a>
                 <p style="margin: 0;">© 2024 Bienes Raíces 230892. Todos los derechos reservados.</p>
             </div>
         </div>
