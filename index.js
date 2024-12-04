@@ -23,13 +23,13 @@ app.set('views','./views')
  //carpe ta publica
 app.use( express.static('public'))
 
+app.use( express.urlencoded({extended: true}))
 //Habilitar cookie parser
 app.use( cookieParser())
 
 // Middleware para manejar CSRF
-//app.use( csurf({ cookie: true }))
+app.use( csurf({ cookie: true }))
 
-app.use( express.urlencoded({extended: true}))
 //Conexión a la BD
 try
 {

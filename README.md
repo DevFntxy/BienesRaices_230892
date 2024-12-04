@@ -13,6 +13,8 @@ Poder demostrar y aprender la creacion y consumo de Interfaces de Programacion d
 | 9.  | 22/10/2024|Creacion de una practica usando express|12| ✅ Finalizada |  
 | 10.  | 23/10/2024|Operaciones Basicas de un API a traves de los verbos HTTP| 12 |✅ Finalizada |
 | 11.  | 05/11/2024|Implementacion de interfaces, registro, logueo y recuperar contraseña| 13 |✅ Finalizada |
+| 12.  | 20/11/2024|Implemtacion de la funcionalidadde registro de cuentas del usuario| 30 |✅ Finalizada |
+| 13.  | 4/12/2024|Implementacion de interfaces, registro, logueo y recuperar contraseña| 20 |✅ Finalizada |
 
 
 ### Tech Stack
