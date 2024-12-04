@@ -2,18 +2,25 @@ import { check, checkExact, validationResult } from 'express-validator';
 import Usuario from '../models/Usuario.js';
 import { generarID } from '../helpers/tokens.js';
 import { emailRegistro } from '../helpers/emails.js';
+import { emailChangePassword } from '../helpers/emails.js';
+import { request, response } from 'express';
+import { where } from 'sequelize';
+import csurf from 'csurf';
 
 const formularioLogin = (request, response) => {
   response.render('auth/login', {
     page: 'Inicia Sesión',
+    csrfToken: request.csrfToken(),
+
   });
 };
 
+
 const formularioRegister = (request, response) => {
   
-  //console.log(request.csrfToken())
+  console.log(request.csrfToken())
   response.render('auth/register', {
-    //csrfToken: request.csrfToken(),
+    csrfToken: request.csrfToken(),
     page: 'Crear Cuenta',
     
   });
@@ -46,7 +53,7 @@ const register = async (request, response) => {
 
   if (!resultado.isEmpty()) {
     return response.render('auth/register', {
-    // csrfToken: request.csrfToken(),
+      csrfToken: request.csrfToken(),
       page: 'Crear Cuenta',
       errores: resultado.array(),
       usuario: {
@@ -63,7 +70,7 @@ const register = async (request, response) => {
 
   if (usuarioExistente) {
     return response.render('auth/register', {
-     // csrfToken: request.csrfToken(),
+      csrfToken: request.csrfToken(),
       page: 'Crear Cuenta',
       errores: [{ msg: 'El usuario ya está registrado' }],
       usuario: {
@@ -90,9 +97,8 @@ const register = async (request, response) => {
   });
 
   response.render('templates/message', {
-    page: 'Cuenta Creada Correctamente',
-    mensaje: `Hemos enviado un correo a ${email} para confirmar tu cuenta.`,
-    
+    page: 'Reestablece tu contraseña',
+    mensaje: `Hemos enviado un correo a ${email} para confirmar cambiar tu cuenta`,
   });
 };
 
@@ -125,13 +131,93 @@ const confirm = async (request, response) => {
 const formularioPasswordRecovery = (request, response) => {
   response.render('auth/passwordRecovery', {
     page: 'Recuperar Contraseña',
+    csrfToken: request.csrfToken()
   });
 };
 
+const passwordReset = async ( request, response) =>{
+   console.log("Validando los datos para la recuperacion de la contraseña")
+   //Validacion de los campos que se revibem del formulario
+  await check ('email').notEmpty().withMessage("El correo electronico  es un campo obligatorio").isEmail().withMessage("El correo electronico no tiene el formato de: usaurio").run(request)
+  
+  let result = validationResult(request)
+
+  if(!result.isEmpty())
+    {
+      return response.render("auth/passwordRecovery",{
+        page: 'Error al intentar resetear la contraseña',
+        csrfToken: request.csrfToken(),
+        errores: result.array()
+     })
+    }
+
+    const {email:email} = request.body
+
+    const existingUser = await Usuario.findOne({where: {email}})
+
+    if (!existingUser) {
+      return response.render('auth/passwordRecovery', {
+        csrfToken: request.csrfToken(),
+        page: 'Crear Cuenta',
+        errores: [{ msg: 'El usuario no existe' }],
+        usuario: {
+          email
+        }
+      })
+    }
+
+    existingUser.password= "";
+    existingUser.token =  generarID();
+    existingUser.save();
+
+    emailChangePassword({
+      name: existingUser.name,
+      email: existingUser.email,
+      token: existingUser.token 
+    })
+
+    response.render('templates/message', {
+      page: 'Reestablece tu contraseña',
+      mensaje: `Hemos enviado un correo a ${email} para cambiar tu contraseña`,
+    });
+
+}
+
+const verfyTokenPasswordChange = async (request, response) => {
+
+  const { token } = request.params;
+
+    // Asegúrate de que la función sea async para usar await
+    const userTokenOwner = await Usuario.findOne({ where: { token }});
+  
+    if (!userTokenOwner) {
+      return response.render('auth/accountConfirmed', {
+        page: 'Restablece tu password',
+        mensaje: 'El token no es válido o el usuario no existe',
+        error : true
+      })
+    }
+    //Mosttarr formulario para arreglar el password
+    response.render('auth/resetPassword' ,{
+      page: 'Reestablece tu contraseña',
+      csrfToken: request.csrfToken()
+    })
+  }
+  
+    
+
+
+const updatePassword = (request, response) =>{
+  console.log("Guardando password")
+  //const {token} = request.params
+}
 export {
   formularioLogin,
   formularioRegister,
   register,
   confirm,
   formularioPasswordRecovery,
+  passwordReset,
+  verfyTokenPasswordChange,
+  updatePassword
 };

@@ -1,5 +1,5 @@
 import express, { application } from 'express';
-import { formularioLogin,formularioRegister,register,confirm,formularioPasswordRecovery }  from '../controllers/usuarioController.js';
+import { formularioLogin,formularioRegister,register,confirm,formularioPasswordRecovery,passwordReset, verfyTokenPasswordChange, updatePassword }  from '../controllers/usuarioController.js';
 const router = express.Router();
 
 //GET
@@ -10,12 +10,12 @@ router.get("/findByID/:id", function(request, response){
     response.send(`Se esta solicitando buscar el usuario con ID: ${request.params.id}`);
 })
 
-
 //POST
 router.post("/newUser/:name/:email/:password", function(request,response){
     response.send(`Se ha solicitado la creacion de un nuevo usuario de nombre ${request.params.name}, asociado al correo ${request.params.email }
         con la contraseña ${request.params.password}`)
 })
+
 
 //PUT Se utiliza para la acrualizacion total de la indormacion del cliente al servidor
 
@@ -48,7 +48,13 @@ router.get("/login", formularioLogin);
 router.get("/createAccount",formularioRegister);
 router.post("/createAccount", register);
 router.get('/accountConfirmed/:token', confirm); // Asegúrate de que exista
-router.get("/passwordRecovery",formularioPasswordRecovery);
 
+router.get("/passwordRecovery",formularioPasswordRecovery);
+router.post("/passwordRecovery",passwordReset)
+
+//Almacena el nuevo password
+
+router.get("/passwordRecovery/:token",verfyTokenPasswordChange)
+router.post("/passwordRecovery/:token",updatePassword)
 
 export default router;
