@@ -33,6 +33,17 @@ const Usuario = db.define('usuarios' , {
             //Salt es como voy a disfrazar el mensaje, generamos la clave para el hasheo , se recp,oemdam 10 rondas de aleotorizacion para no consumir demasiados recuersos de hardware
            const salt = await bcryp.genSalt(10);
            usuario.password = await bcryp.hash( usuario.password, salt) 
+        },
+
+        beforeUpdate: async function (usuario) {
+
+            //Verificar que token este activo o no este confirmado
+
+            
+            //Encryptando contraseña con hash y bcryp 
+            //Salt es como voy a disfrazar el mensaje, generamos la clave para el hasheo , se recp,oemdam 10 rondas de aleotorizacion para no consumir demasiados recuersos de hardware
+           const salt = await bcryp.genSalt(10);
+           usuario.password = await bcryp.hash( usuario.password, salt) 
         }
     }
 })

@@ -44,6 +44,7 @@ router.delete("/deleteUser/:email", function(request, response){
 
 
 router.get("/login", formularioLogin);
+router.get("/login", formularioLogin);
 
 router.get("/createAccount",formularioRegister);
 router.post("/createAccount", register);

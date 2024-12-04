@@ -1,4 +1,5 @@
 import { check, checkExact, validationResult } from 'express-validator';
+import bcryp from 'bcrypt';
 import Usuario from '../models/Usuario.js';
 import { generarID } from '../helpers/tokens.js';
 import { emailRegistro } from '../helpers/emails.js';
@@ -6,6 +7,7 @@ import { emailChangePassword } from '../helpers/emails.js';
 import { request, response } from 'express';
 import { where } from 'sequelize';
 import csurf from 'csurf';
+
 
 const formularioLogin = (request, response) => {
   response.render('auth/login', {
@@ -207,9 +209,38 @@ const verfyTokenPasswordChange = async (request, response) => {
     
 
 
-const updatePassword = (request, response) =>{
-  console.log("Guardando password")
-  //const {token} = request.params
+const updatePassword  = async (request, response) =>{
+
+  await check('newpassword').isLength({ min: 8 }).withMessage('El password debe tener al menos 8 caracteres').run(request);
+ // await check('confirmpassword').equals(request.body.newpassword).withMessage('Las contraseñas no coinciden').run(request);
+
+  
+  const resultado = validationResult(request);
+
+  if (!resultado.isEmpty()) {
+    return response.render('auth/resetPassword', {
+      csrfToken: request.csrfToken(),
+      page: 'Restablece tu password',
+      errores: resultado.array(),
+    });
+  }
+
+  const {token} = request.params
+  const {password} = request.body
+
+  const usuario = await Usuario.findOne({where: {token}})
+
+     const salt = await bcryp.genSalt(10);
+     usuario.password = await bcryp.hash( usuario.password, salt) 
+     usuario.token=null;
+
+  await usuario.save();//update tb_user set password= new_password
+  
+  response.render('auth/accountConfirmed',{
+    page: 'Password Reestablecido Correctamente',
+    mensaje: 'El passwdord se actualizo correctamente'
+  })
+
 }
 export {
   formularioLogin,
