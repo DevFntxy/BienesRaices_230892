@@ -76,7 +76,7 @@ const emailChangePassword = async (datos) => {
                 <h1 style="margin: 0; font-size: 24px;">Cambiar/ Confirmar tu contraseña</h1>
             </div>
             <div style="padding: 20px;">
-                <p style="font-size: 16px;">Hola <strong>${nombre}</strong>,</p>
+                <p style="font-size: 16px;">Hola ${nombre},</p>
                 <p style="font-size: 16px;"> Cambia tu contraseña <strong>Bienes Raíces 230892</strong>Para cambiar tu contraseña da click al siguiente boton:</p>
                 <div style="text-align: center; margin: 20px 0;">
                     <a href="${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}/auth/passwordRecovery/${token}" 

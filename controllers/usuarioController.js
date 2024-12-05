@@ -155,12 +155,12 @@ const passwordReset = async ( request, response) =>{
 
     const {email:email} = request.body
 
-    const existingUser = await Usuario.findOne({where: {email}})
+    const existingUser = await Usuario.findOne({where: {email, confirmado:1}})
 
     if (!existingUser) {
       return response.render('auth/passwordRecovery', {
         csrfToken: request.csrfToken(),
-        page: 'Crear Cuenta',
+        page: 'El usuario no esta autentificado o la cuenta no existe',
         errores: [{ msg: 'El usuario no existe' }],
         usuario: {
           email
@@ -173,7 +173,7 @@ const passwordReset = async ( request, response) =>{
     existingUser.save();
 
     emailChangePassword({
-      name: existingUser.name,
+      nombre: existingUser.nombre,
       email: existingUser.email,
       token: existingUser.token 
     })
@@ -211,9 +211,8 @@ const verfyTokenPasswordChange = async (request, response) => {
 
 const updatePassword  = async (request, response) =>{
 
-  await check('newpassword').isLength({ min: 8 }).withMessage('El password debe tener al menos 8 caracteres').run(request);
- // await check('confirmpassword').equals(request.body.newpassword).withMessage('Las contraseñas no coinciden').run(request);
-
+  await check('newpassword').notEmpty().withMessage('Las contraseñas son un campo obligatorio').isLength({ min: 8 }).withMessage('El password debe tener al menos 8 caracteres').run(request);
+  await check('confirmpassword').equals(request.body.newpassword).withMessage('Las contraseñas no coinciden').run(request);
   
   const resultado = validationResult(request);
 
@@ -230,11 +229,9 @@ const updatePassword  = async (request, response) =>{
 
   const usuario = await Usuario.findOne({where: {token}})
 
-     const salt = await bcryp.genSalt(10);
-     usuario.password = await bcryp.hash( usuario.password, salt) 
-     usuario.token=null;
-
-  await usuario.save();//update tb_user set password= new_password
+    usuario.password= request.body.newpassword
+    usuario.token=null;
+    usuario.save();//update tb_user set password= new_password
   
   response.render('auth/accountConfirmed',{
     page: 'Password Reestablecido Correctamente',
